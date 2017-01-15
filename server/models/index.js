@@ -3,7 +3,7 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: function (res) {
-      db.dbConnect.query('SELECT name, message FROM messages m, usernames u WHERE u.id=m.user_id;', function(err, result) {
+      db.dbConnect.query('SELECT m.id, name, message FROM messages m, usernames u WHERE u.id=m.user_id;', function(err, result) {
         console.log('QUERY RESULT:', result);
         res.send(JSON.stringify(result));
       });
@@ -11,13 +11,13 @@ module.exports = {
 
     }, // a function which produces all the messages
     post: function(message, res) {
-      db.dbConnect.query("SELECT id FROM usernames WHERE name='" + message.username + "';", function(err, result){
+      db.dbConnect.query("SELECT id FROM usernames WHERE name='" + message.name + "';", function(err, result){
         if (err) {
           console.log(err);
         } else {
           console.log(result[0].id);
           var ourId = result[0].id;
-          db.dbConnect.query('INSERT INTO messages (message, user_id, room_id) VALUES ("' + message.text + '", ' + ourId + ', 1);', function(err, result) {
+          db.dbConnect.query('INSERT INTO messages (message, user_id, room_id) VALUES ("' + message.message + '", ' + ourId + ', 1);', function(err, result) {
             if (err) {
               console.log(err);
             } else {

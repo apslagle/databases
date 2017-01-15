@@ -7,10 +7,10 @@ module.exports = {
       // res.send('WORKING');
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      console.log("I've gotten to the controller: ");
-      console.log("Body: ", req.body);
+      console.log("I've gotten to the controller: ", req);
+      console.log("Body: ", JSON.stringify(req.body));
       // console.log("Data: ", req.data);
-      var message = JSON.parse(req.body);
+      var message = req.body;
       models.messages.post(message, res);
       //res.send('Got it, thanks');
 
